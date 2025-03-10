@@ -193,13 +193,34 @@
     </div>
 
     <script>
-        document.querySelector('.join-button').addEventListener('click', function() {
+        document.querySelector('.join-button').addEventListener('click', async function() {
             const email = document.querySelector('.email-input').value;
-            if (validateEmail(email)) {
-                alert('thank you for joining our waitlist!');
-                document.querySelector('.email-input').value = '';
-            } else {
-                alert('please enter a valid email address');
+            const scriptUrl = 'https://script.google.com/macros/s/AKfycbzbo0dOPqL_dNpZB8ohx_AcbDsXpLBplL0R-HFOb6pe3AJjQnn4xJwZsZf7PqlqYvY_Fw/exec ';
+
+            if (!validateEmail(email)) {
+                alert('Please enter a valid email address');
+                return;
+            }
+
+            try {
+                const response = await fetch(scriptUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `email=${encodeURIComponent(email)}`
+                });
+
+                const result = await response.text();
+                
+                if (result === 'Success') {
+                    alert('Thank you for joining our waitlist!');
+                    document.querySelector('.email-input').value = '';
+                } else {
+                    alert('Submission failed. Please try again.');
+                }
+            } catch (error) {
+                alert('Connection error. Please try again later.');
             }
         });
 
@@ -207,42 +228,6 @@
             const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             return re.test(email);
         }
-  <script>
-document.querySelector('.join-button').addEventListener('click', async function() {
-    const email = document.querySelector('.email-input').value;
-    const scriptUrl = 'https://script.google.com/macros/s/AKfycbzbo0dOPqL_dNpZB8ohx_AcbDsXpLBplL0R-HFOb6pe3AJjQnn4xJwZsZf7PqlqYvY_Fw/exec';
-
-    if (!validateEmail(email)) {
-        alert('please enter a valid email address');
-        return;
-    }
-
-    try {
-        const response = await fetch(scriptUrl, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            body: `email=${encodeURIComponent(email)}`
-        });
-
-        const result = await response.text();
-        
-        if (result === 'Success') {
-            alert('thank you for joining our waitlist!');
-            document.querySelector('.email-input').value = '';
-        } else {
-            alert('submission failed. please try again.');
-        }
-    } catch (error) {
-        alert('connection error. please try again later.');
-    }
-});
-
-function validateEmail(email) {
-    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return re.test(email);
-}
-</script>
+    </script>
 </body>
 </html>
