@@ -207,10 +207,10 @@
             const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             return re.test(email);
         }
-    <script>
+  <script>
 document.querySelector('.join-button').addEventListener('click', async function() {
     const email = document.querySelector('.email-input').value;
-    const scriptUrl = 'https://script.google.com/macros/s/AKfycbzbo0dOPqL_dNpZB8ohx_AcbDsXpLBplL0R-HFOb6pe3AJjQnn4xJwZsZf7PqlqYvY_Fw/exec'; // Replace this!
+    const scriptUrl = 'https://script.google.com/macros/s/AKfycbzbo0dOPqL_dNpZB8ohx_AcbDsXpLBplL0R-HFOb6pe3AJjQnn4xJwZsZf7PqlqYvY_Fw/exec';
 
     if (!validateEmail(email)) {
         alert('please enter a valid email address');
